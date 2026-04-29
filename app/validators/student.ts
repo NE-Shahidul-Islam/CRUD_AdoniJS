@@ -1,4 +1,4 @@
-import vine from "@vinejs/vine"
+import vine from '@vinejs/vine'
 
 export const createStudentValidator = vine.compile(
   vine.object({
@@ -24,7 +24,8 @@ export const updateStudentValidator = vine.compile(
       .email()
       .trim()
       .unique(async (db: any, value: any, field: any) => {
-        const student = await db.from('students')
+        const student = await db
+          .from('students')
           .where('email', value)
           .whereNot('id', field.data.params.id)
           .first()
