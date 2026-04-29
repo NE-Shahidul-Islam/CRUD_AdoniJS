@@ -1,0 +1,49 @@
+@layout()
+  <div class="form-container">
+    <div>
+      <h1> Edit Student </h1>
+      <p> Update the student's information below. </p>
+    </div>
+
+    <div>
+      @form({ route: 'students.update', params: { id: student.id }, method: 'POST' })
+        <div>
+          @field.root({ name: 'fullName' })
+            @!field.label({ text: 'Full Name' })
+            @!input.control({ value: student.fullName })
+            @!field.error()
+          @end
+        </div>
+
+        <div>
+          @field.root({ name: 'email' })
+            @!field.label({ text: 'Email' })
+            @!input.control({ type: 'email', value: student.email })
+            @!field.error()
+          @end
+        </div>
+
+        <div>
+          @field.root({ name: 'phone' })
+            @!field.label({ text: 'Phone Number' })
+            @!input.control({ value: student.phone || '' })
+            @!field.error()
+          @end
+        </div>
+
+        <div>
+          @field.root({ name: 'course' })
+            @!field.label({ text: 'Course Name' })
+            @!input.control({ value: student.course })
+            @!field.error()
+          @end
+        </div>
+
+        <div class="mt-4 flex gap-4">
+          @!button({ text: 'Update Student', type: 'submit' })
+          <a href="{{ route('students.index') }}" class="text-gray-600 hover:underline">Cancel</a>
+        </div>
+      @end
+    </div>
+  </div>
+@end

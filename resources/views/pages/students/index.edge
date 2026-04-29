@@ -1,0 +1,61 @@
+@layout()
+  <div class="container mt-10">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">Students Directory</h1>
+      <a href="{{ route('students.create') }}" class="btn btn-primary">
+        + Register New Student
+      </a>
+    </div>
+
+    @if(flashMessages.has('notification'))
+      @alert.root({ variant: flashMessages.get('notification').type === 'success' ? 'success' : 'destructive', autoDismiss: true })
+        @!alert.description({ text: flashMessages.get('notification').message })
+      @end
+    @end
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Phone</th>
+            <th>Course</th>
+            <th style="text-align: right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @each(student in students)
+            <tr>
+              <td>
+                <div style="font-weight: 600; color: var(--gray-12)">{{ student.fullName }}</div>
+              </td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.phone || '—' }}</td>
+              <td>
+                <span style="background: var(--gray-2); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 500">
+                  {{ student.course }}
+                </span>
+              </td>
+              <td>
+                <div class="flex gap-4 justify-end">
+                  <a href="{{ route('students.edit', { id: student.id }) }}" class="btn-link text-blue">Edit</a>
+                  <form action="{{ route('students.destroy', { id: student.id }) }}" method="POST" onsubmit="return confirm('Delete this record?')">
+                    {{ csrfField() }}
+                    <button type="submit" class="btn-link text-red">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          @else
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 40px; color: var(--gray-6)">
+                No students registered yet. Click the button above to add one.
+              </td>
+            </tr>
+          @end
+        </tbody>
+      </table>
+    </div>
+  </div>
+@end
